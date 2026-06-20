@@ -9,7 +9,7 @@ Mission types:
   - full_soc         : All 4 agents working a complex incident
 """
 from crewai import Crew, Task, Process
-from ai_agents.agents import (
+from agents import (
     create_threat_analyst,
     create_incident_responder,
     create_threat_hunter,

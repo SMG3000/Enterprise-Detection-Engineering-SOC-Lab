@@ -4,7 +4,7 @@ lateral movement, and persistence mechanisms across the environment.
 """
 from crewai import Agent
 from langchain_community.llms import Ollama
-from ai_agents.tools import (
+from tools import (
     OpenSearchTool, OpenSearchStatsTool,
     VelociraptorHuntTool, VelociraptorVQLTool,
     MISPSearchTool,

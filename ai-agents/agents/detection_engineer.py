@@ -3,10 +3,10 @@ Detection Engineer Agent — analyzes missed detections, gaps in coverage,
 and generates new Sigma rules and ElastAlert2 rules to fill them.
 """
 from crewai import Agent
-from crewai.tools import BaseTool
+from crewai_tools import BaseTool
 from pydantic import BaseModel, Field
 from langchain_community.llms import Ollama
-from ai_agents.tools import OpenSearchTool, OpenSearchStatsTool
+from tools import OpenSearchTool, OpenSearchStatsTool
 import os
 import json
 import yaml

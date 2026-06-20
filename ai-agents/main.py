@@ -14,7 +14,7 @@ import json
 import sys
 import os
 from datetime import datetime
-from ai_agents.crews import run_mission
+from crews import run_mission
 
 
 DEMO_SCENARIOS = {

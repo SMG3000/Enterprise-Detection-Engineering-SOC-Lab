@@ -1,7 +1,7 @@
 """
 DFIR-IRIS Tool — create and manage incident cases, add evidence, IOCs, and timeline events.
 """
-from crewai.tools import BaseTool
+from crewai_tools import BaseTool
 from pydantic import BaseModel, Field
 import os
 import json

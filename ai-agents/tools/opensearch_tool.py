@@ -2,7 +2,7 @@
 OpenSearch Tool — query the SOC SIEM for alerts, events, and threat data.
 Used by all 4 CrewAI agents.
 """
-from crewai.tools import BaseTool
+from crewai_tools import BaseTool
 from pydantic import BaseModel, Field
 from opensearchpy import OpenSearch
 from datetime import datetime, timedelta

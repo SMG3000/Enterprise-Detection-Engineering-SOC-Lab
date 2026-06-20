@@ -6,7 +6,7 @@ from fastapi import FastAPI, HTTPException, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, Dict, Any
-from ai_agents.crews import run_mission
+from crews import run_mission
 import logging
 import asyncio
 import uuid

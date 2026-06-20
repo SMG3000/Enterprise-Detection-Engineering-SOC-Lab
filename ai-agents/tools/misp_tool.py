@@ -1,7 +1,7 @@
 """
 MISP Tool — query Threat Intelligence Platform for IOCs, events, and attribute enrichment.
 """
-from crewai.tools import BaseTool
+from crewai_tools import BaseTool
 from pydantic import BaseModel, Field
 import os
 import json

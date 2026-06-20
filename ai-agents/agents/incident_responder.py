@@ -4,7 +4,7 @@ creates IRIS cases, coordinates containment, and drives the response lifecycle.
 """
 from crewai import Agent
 from langchain_community.llms import Ollama
-from ai_agents.tools import (
+from tools import (
     OpenSearchTool,
     IRISCreateCaseTool, IRISAddEvidenceTool, IRISAddTimelineTool,
     VelociraptorHuntTool, VelociraptorVQLTool,

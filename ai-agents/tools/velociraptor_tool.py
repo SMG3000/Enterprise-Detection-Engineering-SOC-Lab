@@ -1,7 +1,7 @@
 """
 Velociraptor Tool — launch live endpoint forensics hunts and collect artifacts.
 """
-from crewai.tools import BaseTool
+from crewai_tools import BaseTool
 from pydantic import BaseModel, Field
 import os
 import json
