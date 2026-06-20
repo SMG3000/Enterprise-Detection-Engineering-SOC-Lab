@@ -55,9 +55,13 @@
   /* Layout */
   --sidebar-w: 220px;
   --header-h:  56px;
+  --radius:    8px;
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
+
+  /* Aliases */
+  --success:   #22c55e;
 
   /* Transitions */
   --transition: 150ms ease;
@@ -552,6 +556,9 @@ code, pre, .mono { font-family: var(--font-mono); }
 .status-dot.down    { background: var(--critical); box-shadow: 0 0 5px var(--critical); }
 .status-dot.warn    { background: var(--medium); }
 .status-dot.unknown { background: var(--text-muted); }
+.status-dot.green   { background: var(--low); box-shadow: 0 0 5px var(--low); }
+.status-dot.yellow  { background: var(--medium); }
+.status-dot.red     { background: var(--critical); box-shadow: 0 0 5px var(--critical); }
 
 .status-row {
   display: flex;
