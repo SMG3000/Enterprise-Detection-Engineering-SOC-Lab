@@ -74,16 +74,16 @@ container_check "Vector Pipeline" "vector"
 
 echo
 echo -e "  ${C_BOLD}Security Tools${C_RESET}"
-http_check      "DFIR-IRIS"    "http://localhost:4460"
+http_check      "DFIR-IRIS"    "https://localhost:8443"
 http_check      "MISP"         "http://localhost:4000"
 http_check      "Velociraptor" "http://localhost:8889"
-http_check      "StackStorm"   "http://localhost:9000"
+http_check      "StackStorm"   "http://localhost:9101"
 container_check "ElastAlert2"  "elastalert2"
 
 echo
 echo -e "  ${C_BOLD}Attack Simulation & AI${C_RESET}"
 http_check      "MITRE Caldera" "http://localhost:8888"
-http_check      "AI Agents API" "http://localhost:8000/health"
+http_check      "AI Agents API" "http://localhost:8500/health"
 http_check      "Ollama LLM"    "http://localhost:11434"
 container_check "WebSocket Streamer" "ws-streamer"
 
