@@ -90,6 +90,7 @@ services:
       OPENSEARCH_USERNAME: admin
       OPENSEARCH_PASSWORD: ${OPENSEARCH_INITIAL_ADMIN_PASSWORD}
       SERVER_NAME: soc-dashboards
+      DISABLE_SECURITY_DASHBOARDS_PLUGIN: "true"
     volumes:
       - ./config/opensearch/dashboards.yml:/usr/share/opensearch-dashboards/config/opensearch_dashboards.yml:ro
     networks:
