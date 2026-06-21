@@ -74,7 +74,7 @@ container_check "Vector Pipeline" "vector"
 
 echo
 echo -e "  ${C_BOLD}Security Tools${C_RESET}"
-http_check      "DFIR-IRIS"    "https://localhost:8443"
+http_check      "DFIR-IRIS"    "http://localhost:4460"
 http_check      "MISP"         "http://localhost:4000"
 http_check      "Velociraptor" "http://localhost:8889"
 http_check      "StackStorm"   "http://localhost:9101"

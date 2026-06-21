@@ -184,6 +184,7 @@ services:
 # ================================================================
   stackstorm:
     image: stackstorm/stackstorm:latest
+    platform: linux/amd64
     container_name: soc-stackstorm
     hostname: stackstorm
     <<: *restart
@@ -192,7 +193,8 @@ services:
       - "${ST2_API_PORT:-9101}:9101"
       - "${ST2_AUTH_PORT:-9102}:9102"
     environment:
-      - ST2_AUTH_TOKEN=${ST2_AUTH_TOKEN}
+      - ST2_USER=${ST2_USER:-st2admin}
+      - ST2_PASSWORD=${ST2_PASSWORD:-SocLab2026!}
       - MONGO_HOST=st-mongo
       - RABBITMQ_HOST=st-rabbitmq
     volumes:
@@ -220,42 +222,72 @@ services:
 # ================================================================
 # LAYER 6 — DFIR-IRIS CASE MANAGEMENT
 # ================================================================
+  iris-db:
+    image: ghcr.io/dfir-iris/iriswebapp_db:v2.4.9
+    container_name: soc-iris-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${IRIS_DB_PASSWORD:-iris_db_pass_changeme}
+      POSTGRES_DB: iris_db
+      POSTGRES_ADMIN_USER: iris
+      POSTGRES_ADMIN_PASSWORD: ${IRIS_DB_PASSWORD:-iris_db_pass_changeme}
+    volumes:
+      - dfir-iris-db:/var/lib/postgresql/data
+    networks:
+      soc-net: { ipv4_address: 172.20.0.61 }
+
+  iris-rabbitmq:
+    image: rabbitmq:3-management
+    container_name: soc-iris-rabbitmq
+    networks:
+      soc-net: { ipv4_address: 172.20.0.62 }
+
   dfir-iris:
-    image: ghcr.io/dfir-iris/irisdockerproject:v2.4.9
+    image: ghcr.io/dfir-iris/iriswebapp_app:v2.4.9
     container_name: soc-dfir-iris
     hostname: dfir-iris
     <<: *restart
-    depends_on: [iris-db]
+    depends_on: [iris-db, iris-rabbitmq]
+    command: ["/bin/bash", "/iriswebapp/iris-entrypoint.sh"]
     ports:
-      - "${IRIS_PORT:-8443}:443"
+      - "${IRIS_PORT:-4460}:8000"
     environment:
-      - IRIS_SECRET_KEY=${IRIS_SECRET_KEY}
-      - IRIS_ADM_USERNAME=administrator
-      - IRIS_ADM_PASSWORD=${IRIS_ADMIN_PASSWORD}
-      - IRIS_ADM_EMAIL=${MISP_ADMIN_EMAIL}
-      - IRIS_SECURITY_REGISTRATION_ENABLE=false
-      - DB_USER=iris
-      - DB_PASS=${IRIS_DB_PASSWORD}
-      - DB_HOST=iris-db
-      - DB_PORT=5432
-      - DB_NAME=iris_db
+      - IRIS_SECRET_KEY=${IRIS_SECRET_KEY:-iris_secret_key_changeme_64chars}
+      - IRIS_ADM_PASS=${IRIS_ADMIN_PASSWORD:-IrisAdmin@2024!}
+      - IRIS_ADM_EMAIL=${MISP_ADMIN_EMAIL:-admin@soc.lab}
+      - POSTGRES_USER=iris
+      - POSTGRES_PASSWORD=${IRIS_DB_PASSWORD:-iris_db_pass_changeme}
+      - POSTGRES_ADMIN_USER=iris
+      - POSTGRES_ADMIN_PASSWORD=${IRIS_DB_PASSWORD:-iris_db_pass_changeme}
+      - POSTGRES_SERVER=iris-db
+      - POSTGRES_PORT=5432
+      - CELERY_BROKER=amqp://guest:guest@iris-rabbitmq:5672//
     volumes:
       - dfir-iris-data:/home/iris/data
     networks:
       soc-net: { ipv4_address: 172.20.0.60 }
     logging: *logging
 
-  iris-db:
-    image: postgres:16-alpine
-    container_name: soc-iris-db
+  iris-worker:
+    image: ghcr.io/dfir-iris/iriswebapp_app:v2.4.9
+    container_name: soc-iris-worker
+    <<: *restart
+    depends_on: [iris-db, iris-rabbitmq, dfir-iris]
+    command: ["/bin/bash", "/iriswebapp/iris-entrypoint.sh", "iris-worker"]
     environment:
-      POSTGRES_USER: iris
-      POSTGRES_PASSWORD: ${IRIS_DB_PASSWORD}
-      POSTGRES_DB: iris_db
+      - IRIS_SECRET_KEY=${IRIS_SECRET_KEY:-iris_secret_key_changeme_64chars}
+      - POSTGRES_USER=iris
+      - POSTGRES_PASSWORD=${IRIS_DB_PASSWORD:-iris_db_pass_changeme}
+      - POSTGRES_ADMIN_USER=iris
+      - POSTGRES_ADMIN_PASSWORD=${IRIS_DB_PASSWORD:-iris_db_pass_changeme}
+      - POSTGRES_SERVER=iris-db
+      - POSTGRES_PORT=5432
+      - CELERY_BROKER=amqp://guest:guest@iris-rabbitmq:5672//
     volumes:
-      - dfir-iris-db:/var/lib/postgresql/data
+      - dfir-iris-data:/home/iris/data
     networks:
-      soc-net: { ipv4_address: 172.20.0.61 }
+      soc-net: { ipv4_address: 172.20.0.63 }
+    logging: *logging
 
 # ================================================================
 # LAYER 7 — MISP THREAT INTELLIGENCE
