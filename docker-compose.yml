@@ -190,8 +190,7 @@ services:
     <<: *restart
     depends_on: [st-mongo, st-rabbitmq]
     ports:
-      - "${ST2_API_PORT:-9101}:9101"
-      - "${ST2_AUTH_PORT:-9102}:9102"
+      - "${ST2_HTTP_PORT:-9080}:80"
     environment:
       - ST2_USER=${ST2_USER:-st2admin}
       - ST2_PASSWORD=${ST2_PASSWORD:-SocLab2026!}

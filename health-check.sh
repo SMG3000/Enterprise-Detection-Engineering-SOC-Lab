@@ -77,7 +77,7 @@ echo -e "  ${C_BOLD}Security Tools${C_RESET}"
 http_check      "DFIR-IRIS"    "http://localhost:4460"
 http_check      "MISP"         "http://localhost:4000"
 http_check      "Velociraptor" "http://localhost:8889"
-http_check      "StackStorm"   "http://localhost:9101"
+http_check      "StackStorm"   "http://localhost:9080"
 container_check "ElastAlert2"  "elastalert2"
 
 echo
