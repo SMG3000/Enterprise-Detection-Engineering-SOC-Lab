@@ -24,7 +24,6 @@ networks:
 
 volumes:
   opensearch-data1:
-  opensearch-data2:
   dfir-iris-data:
   dfir-iris-db:
   misp-data:
@@ -54,7 +53,7 @@ services:
       - node.name=opensearch-node1
       - discovery.type=single-node
       - bootstrap.memory_lock=true
-      - "OPENSEARCH_JAVA_OPTS=-Xms2g -Xmx2g"
+      - "OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g"
       - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_INITIAL_ADMIN_PASSWORD}
       - plugins.security.ssl.http.enabled=false
       - DISABLE_SECURITY_PLUGIN=true
